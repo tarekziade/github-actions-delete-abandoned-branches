@@ -28,7 +28,12 @@ def run_action(
         issue_repos = []
 
     gh = pygithub.Github(github_token)
-    issue_repos = [gh.get_repo(r) for r in issue_repos]
+
+    def load_repo(name):
+        print(f"Loading {repo}...")
+        return gh.get_repo(name)
+
+    issue_repos = [load_repo(r) for r in issue_repos]
 
     # loading comments for lookups
     comments = {}
