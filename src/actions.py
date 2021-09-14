@@ -30,7 +30,7 @@ def run_action(
     gh = pygithub.Github(github_token)
 
     def load_repo(name):
-        print(f"Loading {repo}...")
+        print(f"Loading repo {name}...")
         return gh.get_repo(name)
 
     issue_repos = [load_repo(r) for r in issue_repos]
