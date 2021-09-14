@@ -39,7 +39,8 @@ def run_action(
     comments = {}
     for issue_repo in issue_repos:
         for issue in issue_repo.get_issues(state="open"):
-            comments[issue.html_url] = issue.body
+            if issue.body:
+                comments[issue.html_url] = issue.body
             for comment in issue.get_comments():
                 if comment.body:
                     comments[comment.html_url] = comment.body
@@ -48,6 +49,8 @@ def run_action(
     print("Filtering out branches we see in issues")
     def keep_branch(name):
         for url, body in comments.items():
+            if body is None:
+                continue
             if name in body:
                 print(f"`{name}` was mentioned in {url}")
                 return False
