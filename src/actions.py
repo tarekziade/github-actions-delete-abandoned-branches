@@ -35,7 +35,7 @@ def run_action(
 
     issue_repos = [load_repo(r) for r in issue_repos]
 
-    # loading comments for lookups
+    print("Loading comments for lookups")
     comments = {}
     for issue_repo in issue_repos:
         for issue in issue_repo.get_issues(state="open"):
@@ -45,9 +45,12 @@ def run_action(
                 if comment.body:
                     comments[comment.html_url] = comment.body
 
+    print(f"Loaded {len(comments)} comments")
+
     print(f"Branches queued for deletion: {branches}")
     print("Filtering out branches we see in issues")
     def keep_branch(name):
+        print(f"Checking branch {name}")
         for url, body in comments.items():
             if body is None:
                 continue
