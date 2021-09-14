@@ -41,8 +41,11 @@ def run_action(
         for issue in issue_repo.get_issues(state="open"):
             comments[issue.html_url] = issue.body
             for comment in issue.get_comments():
-                comments[comment.html_url] = comment.body
+                if comment.body:
+                    comments[comment.html_url] = comment.body
 
+    print(f"Branches queued for deletion: {branches}")
+    print("Filtering out branches we see in issues")
     def keep_branch(name):
         for url, body in comments.items():
             if name in body:
@@ -52,7 +55,7 @@ def run_action(
 
     branches = [branch for branch in branches if keep_branch(branch)]
 
-    print(f"Branches queued for deletion: {branches}")
+    print(f"Branches left for deletion: {branches}")
     if dry_run is False:
         print('This is NOT a dry run, deleting branches')
         github.delete_branches(branches=branches)
