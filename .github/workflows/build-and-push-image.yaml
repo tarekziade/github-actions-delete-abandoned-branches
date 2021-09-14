@@ -3,7 +3,7 @@ name: Build and publish docker image
 on:
   push:
     branches:
-      - master
+      - main
   # Allow workflow to be manually run from the GitHub UI
   workflow_dispatch:
 
